@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Создание опроса
+{% endblock %}
+{% block content %}
+  <div class="content">
+    <form class="" action="{% url 'quiz_create_page' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" name="button">Создать опрос</button>
+    </form>
+  </div>
+{% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from . import models, forms
+from .utils import *
 from datetime import datetime
 
 
@@ -38,6 +39,17 @@ class LoginView(View):
                     login(request, user)
                     return redirect('/')
         return redirect('/')
+
+
+class CreateQuizView(CreateObjectMixin, View):
+    model_form = forms.CreateQuizForm
+    template = 'MainApp/quiz_create.html'
+
+
+class CreateQuestionView(CreateObjectMixin, View):
+    model_form = forms.CreateQuestionForm
+    template = 'MainApp/question_create.html'
+
 
 @login_required
 def logout_view(request):
