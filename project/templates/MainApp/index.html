@@ -5,7 +5,18 @@
   Опросы
 {% endblock %}
 {% block content %}
-  <div class="">
-
+  <div class="content">
+    {% for quiz in quizes %}
+      <div class="quiz">
+        <h3>{{ quiz.title }}</h3>
+        <p>{{ quiz.description }}</p>
+        {% for q in quiz.questions.all %}
+          <h4>{{ q.text }}</h4>
+          <p>Тип вопроса: {{ q.type }}</p>
+        {% endfor %}
+        <p>{{ quiz.date_start }}</p>
+        <p>{{ quiz.date_finish }}</p>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

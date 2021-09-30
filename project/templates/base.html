@@ -6,9 +6,12 @@
   </head>
   <body>
     <div class="navbar">
-      <p><a href="{% url 'login_page' %}">Вы администратор?</a></p>
+      <p><a href="#">#</a></p>
+      <p><a href="#">#</a></p>
       {% if request.user.is_authenticated %}
-        <p><a href="#">#</a></p>
+        <p><a href="{% url 'logout' %}">Выйти</a></p>
+      {% else %}
+        <p><a href="{% url 'login_page' %}">Вы администратор?</a></p>
       {% endif %}
     </div>
     {% block content %}

@@ -5,7 +5,11 @@
   Авторизация
 {% endblock %}
 {% block content %}
-  <div class="">
-
+  <div class="content">
+    <form class="login_form" action="{% url 'login_page' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" name="button">Войти</button>
+    </form>
   </div>
 {% endblock %}

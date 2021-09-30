@@ -7,6 +7,10 @@ class Quiz(models.Model):
     date_start = models.DateField(auto_now_add=True, null=True)
     date_finish = models.DateField(null=True)
     description = models.TextField(default='Описание опроса.')
+    questions = models.ManyToManyField('Question', blank=True)
+
+    def __str__(self):
+        return self.title
 
 
 QUESTION_TYPE_CHOICES = [
@@ -20,3 +24,6 @@ class Question(models.Model):
 
     text = models.CharField(max_length=255, blank=False, null=False)
     type = models.CharField(max_length=36, blank=False, null=False, choices=QUESTION_TYPE_CHOICES)
+
+    def __str__(self):
+        return self.text
