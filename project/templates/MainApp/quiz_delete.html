@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Удаление опроса
+{% endblock %}
+{% block content %}
+  <div class="content">
+    <form class="" action="{% url 'quiz_delete_page' obj.pk %}" method="post">
+      {% csrf_token %}
+      <p>Вы уверены, что хотите удалить этот опрос?</p>
+      <button type="submit" name="button">Удалить</button>
+    </form>
+  </div>
+{% endblock %}

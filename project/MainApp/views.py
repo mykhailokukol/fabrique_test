@@ -3,7 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 from . import models, forms
-from .utils import *
+from .utils import CreateObjectMixin, UpdateObjectMixin, DeleteObjectMixin
 from datetime import datetime
 
 
@@ -42,18 +42,38 @@ class LoginView(View):
 
 
 class CreateQuizView(CreateObjectMixin, View):
-    model_form = forms.CreateQuizForm
+    model_form = forms.QuizForm
     template = 'MainApp/quiz_create.html'
 
 
 class CreateQuestionView(CreateObjectMixin, View):
-    model_form = forms.CreateQuestionForm
+    model_form = forms.QuestionForm
     template = 'MainApp/question_create.html'
+
+
+class UpdateQuizView(UpdateObjectMixin, View):
+    model = models.Quiz
+    model_form = forms.QuizForm
+    template = 'MainApp/quiz_update.html'
+
+
+class UpdateQuestionView(UpdateObjectMixin, View):
+    model = models.Question
+    model_form = forms.QuestionForm
+    template = 'MainApp/question_update.html'
+
+
+class DeleteQuizView(DeleteObjectMixin, View):
+    model = models.Quiz
+    template = 'MainApp/quiz_delete.html'
+
+
+class DeleteQuestionView(DeleteObjectMixin, View):
+    model = models.Question
+    template = 'MainApp/question_delete.html'
 
 
 @login_required
 def logout_view(request):
-
     logout(request)
-
     return redirect('/')

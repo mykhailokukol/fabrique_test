@@ -8,7 +8,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label='Пароль')
 
 
-class CreateQuizForm(forms.ModelForm):
+class QuizForm(forms.ModelForm):
 
     class Meta:
 
@@ -20,7 +20,7 @@ class CreateQuizForm(forms.ModelForm):
         }
 
 
-class CreateQuestionForm(forms.ModelForm):
+class QuestionForm(forms.ModelForm):
 
     class Meta:
 

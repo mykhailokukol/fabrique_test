@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Изменение вопроса
+{% endblock %}
+{% block content %}
+  <div class="content">
+    <form class="" action="{% url 'question_update_page' obj.pk %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" name="button">Обновить вопрос</button>
+    </form>
+  </div>
+{% endblock %}

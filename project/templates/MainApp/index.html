@@ -13,9 +13,17 @@
         {% for q in quiz.questions.all %}
           <h4>{{ q.text }}</h4>
           <p>Тип вопроса: {{ q.type }}</p>
+          <p>
+            <a href="{% url 'question_update_page' q.id %}">Изменить вопрос</a>
+             / <a href="{% url 'question_delete_page' q.id %}">Удалить вопрос</a>
+          </p>
         {% endfor %}
         <p>{{ quiz.date_start }}</p>
         <p>{{ quiz.date_finish }}</p>
+        <p>
+          <a href="{% url 'quiz_update_page' quiz.id %}">Изменить опрос</a>
+           / <a href="{% url 'quiz_delete_page' quiz.id %}">Удалить опрос</a>
+        </p>
       </div>
     {% endfor %}
   </div>
