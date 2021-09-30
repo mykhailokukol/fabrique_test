@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Опрос
+{% endblock %}
+{% block content %}
+  <div class="content">
+    <div class="quiz">
+      <form class="" action="{% url 'answers_page' quiz.pk %}" method="post">
+        {% csrf_token %}
+        <h3>{{ quiz.title }}</h3>
+        <p>{{ quiz.description }}</p>
+        {% for q in quiz.questions.all %}
+          <h4>{{ q.text }}</h4>
+          <p>Тип вопроса: {{ q.type }}</p>
+          <p>
+            {{ form.text }}
+          </p>
+        {% endfor %}
+        <p>{{ quiz.date_start }}</p>
+        <p>{{ quiz.date_finish }}</p>
+        <button type="submit" name="button">Ответить</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

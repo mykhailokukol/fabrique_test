@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
 from django.views.generic import View
 from . import models, forms
 from .utils import CreateObjectMixin, UpdateObjectMixin, DeleteObjectMixin
@@ -15,7 +17,31 @@ class IndexView(View):
             'quizes': active_quizes,
         })
 
-    def post(self, request):
+
+class AnswersView(View):
+
+    def get(self, request, quiz_pk):
+        form = forms.AnswerForm()
+        quiz = models.Quiz.objects.get(pk=quiz_pk)
+        return render(request, 'MainApp/answer.html', {
+            'quiz': quiz,
+            'form': form,
+        })
+
+    def post(self, request, quiz_pk):
+        form = forms.AnswerForm(request.POST)
+        quiz = models.Quiz.objects.get(pk=quiz_pk)
+        if form.is_valid():
+            request.session.save()
+            if not request.session.exists(request.session.session_key):
+                request.session.create()
+            session = Session.objects.get(session_key=request.session.session_key)
+            for answr in request.POST.getlist('text'):
+                new_answer = models.Answer.objects.create(
+                    text=answr,
+                    author=session,
+                )
+                quiz.answers.add(models.Answer.objects.get(text=answr, author=session))
         return redirect('/')
 
 
@@ -71,6 +97,31 @@ class DeleteQuizView(DeleteObjectMixin, View):
 class DeleteQuestionView(DeleteObjectMixin, View):
     model = models.Question
     template = 'MainApp/question_delete.html'
+
+
+class ViewAnswers(View):
+
+    def get(self, request):
+        user_answers = None
+        form = forms.ChooseAnswerForm()
+        return render(request, 'MainApp/answers_select.html', {
+            'form': form,
+            'user_answers': user_answers,
+        })
+
+    def post(self, request):
+        form = forms.ChooseAnswerForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['author']
+            user_answers = models.Answer.objects.filter(author=user)
+            return render(request, 'MainApp/answers_select.html', {
+                'form': form,
+                'user_answers': user_answers,
+            })
+        else:
+            return render(request, 'MainApp/answers_select.html', {
+                'form': form,
+            })
 
 
 @login_required

@@ -8,22 +8,34 @@
   <div class="content">
     {% for quiz in quizes %}
       <div class="quiz">
-        <h3>{{ quiz.title }}</h3>
-        <p>{{ quiz.description }}</p>
-        {% for q in quiz.questions.all %}
-          <h4>{{ q.text }}</h4>
-          <p>Тип вопроса: {{ q.type }}</p>
+          <h3>{{ quiz.title }}</h3>
+          <p>{{ quiz.description }}</p>
+          {% for q in quiz.questions.all %}
+            <h4>{{ q.text }}</h4>
+            <p>Тип вопроса: {{ q.type }}</p>
+            <p>
+              {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser or request.user.is_moderator %}
+                <a href="{% url 'question_update_page' q.id %}">Изменить вопрос</a>
+                 / <a href="{% url 'question_delete_page' q.id %}">Удалить вопрос</a>
+                {% endif %}
+              {% endif %}
+            </p>
+            <p>
+              {{ answer_form.text }}
+            </p>
+          {% endfor %}
+          <p>{{ quiz.date_start }}</p>
+          <p>{{ quiz.date_finish }}</p>
           <p>
-            <a href="{% url 'question_update_page' q.id %}">Изменить вопрос</a>
-             / <a href="{% url 'question_delete_page' q.id %}">Удалить вопрос</a>
+            {% if request.user.is_authenticated %}
+              {% if request.user.is_superuser or request.user.is_moderator %}
+                <a href="{% url 'quiz_update_page' quiz.id %}">Изменить опрос</a>
+                 / <a href="{% url 'quiz_delete_page' quiz.id %}">Удалить опрос</a>
+              {% endif %}
+            {% endif %}
           </p>
-        {% endfor %}
-        <p>{{ quiz.date_start }}</p>
-        <p>{{ quiz.date_finish }}</p>
-        <p>
-          <a href="{% url 'quiz_update_page' quiz.id %}">Изменить опрос</a>
-           / <a href="{% url 'quiz_delete_page' quiz.id %}">Удалить опрос</a>
-        </p>
+          <a href="{% url 'answers_page' quiz.pk %}">Пройти опрос</a>
       </div>
     {% endfor %}
   </div>

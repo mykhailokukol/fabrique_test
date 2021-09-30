@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.sessions.models import Session
 
 
 class Quiz(models.Model):
@@ -8,6 +9,7 @@ class Quiz(models.Model):
     date_finish = models.DateField(null=True)
     description = models.TextField(default='Описание опроса.')
     questions = models.ManyToManyField('Question', blank=True)
+    answers = models.ManyToManyField('Answer', blank=True)
 
     def __str__(self):
         return self.title
@@ -27,3 +29,12 @@ class Question(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class Answer(models.Model):
+
+    author = models.ForeignKey(Session, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return ('%s: %s' % (self.author.id, self.text))

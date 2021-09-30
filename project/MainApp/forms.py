@@ -29,3 +29,22 @@ class QuestionForm(forms.ModelForm):
         widgets = {
             'type': forms.RadioSelect(),
         }
+
+
+class AnswerForm(forms.ModelForm):
+
+    class Meta:
+
+        model = models.Answer
+        fields = ['text']
+
+
+class ChooseAnswerForm(forms.ModelForm):
+
+    class Meta:
+
+        model = models.Answer
+        fields = ['author']
+        widgets = {
+            'author': forms.RadioSelect()
+        }

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Выбор пользователя
+{% endblock %}
+
+{% block content %}
+  <div class="">
+    <form class="" action="{% url 'answer_select_page' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" name="button">Поиск</button>
+    </form>
+    <div class="">
+      {% if user_answers is not None %}
+        {% for answer in user_answers %}
+          <p>{{ answer.author }}</p>
+          <p>{{ answer.text }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
